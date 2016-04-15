@@ -121,7 +121,9 @@ int* open_socket_in_netns(char **ns_names, int num_netns) {
 				handleErr(fd_socket[i]);
 			return -2;
 		}
-		sprintf(srvInfoTable[i].netns_name, "%s", ns_names[i]);
+						
+		sprintf(srvInfoTable[i].netns_name, "%s", ns_names[i]);  
+		sprintf(srvInfoTable[i].srv_name, "S%d", atoi(&ns_names[i][2]); //cnahges for right commit
 		srvInfoTable[i].netns_fd = fd_socket[i];
 
 		printf("srvInfoTable[%d].netns_name:%s\n", i, ns_names[i]);
