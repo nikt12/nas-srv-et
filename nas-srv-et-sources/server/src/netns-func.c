@@ -93,7 +93,7 @@ int* open_socket_in_netns(char **ns_names, int num_netns) {
 		return -1;
 	}
 	
-	printf("FD of global netns:%s\n", fd_global_netns);
+	printf("FD of global netns:%d\n", fd_global_netns);
 
 /* Set ns_name[i] as a network namespace, open socket */
 	for(i = 0; i < num_netns; i++)
