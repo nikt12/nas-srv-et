@@ -65,12 +65,28 @@ int main(int argc, char *argv[]) {
 		if(result < 0)
 			handleErr(result);
 
+		// netns_num = num_of_services;
+		// netns_names = (char **)malloc(netns_num * sizeof(char *));
+		// for(i = 0; i < netns_num; i++) {
+		// 	netns_names[i] = (char *)malloc(5);
+		// 	sprintf(netns_names[i], "ns%d", (netns_num - i));
+		// }
+
 		netns_num = num_of_services;
-		netns_names = (char **)malloc(netns_num * sizeof(char *));
-		for(i = 0; i < netns_num; i++) {
-			netns_names[i] = (char *)malloc(5);
-			sprintf(netns_names[i], "ns%d", (netns_num - i));
-		}
+                netns_names = (char **)malloc(netns_num * sizeof(char *));
+                printf("Netns_num:%d\n", netns_num);
+                for(i = 0; i < netns_num; i++) {
+                        netns_names[i] = (char *)malloc(5);
+                        char a;
+                        a = srvInfoTable[netns_num - i - 1].srv_name[1];
+                        int b;
+                        b = atoi(&a);
+                    printf("Service int:%d\n", b);
+                        sprintf(netns_names[i], "ns%d", b);
+                        printf("NS name:%s\n", netns_names[i]);
+
+                }
+
 
 		fd_socket = open_socket_in_netns(netns_names, netns_num);
 

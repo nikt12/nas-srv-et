@@ -72,6 +72,8 @@ int* open_socket_in_netns(char **ns_names, int num_netns) {
 	static char path1[MAXPATHLEN] = {0}; /* Path to global netns of this process */
         static char pid_current[30] = {0}; /* Pid the current process */
 
+	printf("Started OSIN!\n");
+
 /* Allocate memory for array fd_socket */
 	fd_socket = (int*)malloc(sizeof(int)*num_netns);
 
@@ -81,6 +83,8 @@ int* open_socket_in_netns(char **ns_names, int num_netns) {
 	strcat(path1,pid_current);
 	strcat(path1,PART2_GLOBAL_NETNS_PATH);
 
+	printf("Path of global netns:%s\n", path1);
+
 /* Save file descriptor of global network namespace */
 	fd_global_netns = open(path1, O_RDONLY, 0);
 	if (fd_global_netns < 0) {
@@ -88,12 +92,17 @@ int* open_socket_in_netns(char **ns_names, int num_netns) {
 				strerror(errno));
 		return -1;
 	}
+	
+	printf("FD of global netns:%s\n", fd_global_netns);
 
 /* Set ns_name[i] as a network namespace, open socket */
 	for(i = 0; i < num_netns; i++)
 	{
 /* Change netns to ns_names[i] */
 		exit_stat = netns_change(ns_names[i], fd_global_netns);
+
+		printf("ns_name[%d]:%s\n", i, ns_names[i]);
+
 		if (exit_stat == -1) {
 			fprintf(stderr, "*** Failed to create(or set) a new network namespace \"%s\": %s\n",
 				ns_names[i], strerror(errno));
@@ -114,6 +123,10 @@ int* open_socket_in_netns(char **ns_names, int num_netns) {
 		}
 		sprintf(srvInfoTable[i].netns_name, "%s", ns_names[i]);
 		srvInfoTable[i].netns_fd = fd_socket[i];
+
+		printf("srvInfoTable[%d].netns_name:%s\n", i, ns_names[i]);
+		printf("srvInfoTable[%d].netns_fd:%d\n", i, fd_socket[i]);
+
 	}
 
 /* Return to global netns */
