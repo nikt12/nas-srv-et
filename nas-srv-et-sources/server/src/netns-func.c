@@ -126,6 +126,8 @@ int* open_socket_in_netns(char **ns_names, int num_netns) {
 
 		printf("srvInfoTable[%d].netns_name:%s\n", i, ns_names[i]);
 		printf("srvInfoTable[%d].netns_fd:%d\n", i, fd_socket[i]);
+		printf("srvInfoTable[%d].srv_name:%s\n", i, srvInfoTable[i].srv_name);
+
 
 	}
 
